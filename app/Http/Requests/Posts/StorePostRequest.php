@@ -24,7 +24,9 @@ class StorePostRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string'],
+            'title_ar' => ['required', 'string'],
             'text' => ['required', 'string'],
+            'text_ar' => ['required', 'string'],
             'whatsapp' => ['required', 'string'],
             'gender' => ['required', 'string', 'in:male,female'],
         ];

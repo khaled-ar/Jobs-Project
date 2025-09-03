@@ -25,6 +25,15 @@ class PostsController extends Controller
         );
     }
 
+    public function all_for_visitor() {
+        $gender = request('gender');
+        return $this->generalResponse(
+            $gender
+            ? Post::whereGender($gender)->latest()->paginate(10)
+            : Post::latest()->paginate(10)
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      */

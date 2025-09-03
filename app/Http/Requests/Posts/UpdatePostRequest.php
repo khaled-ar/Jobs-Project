@@ -23,7 +23,9 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             'title' => ['string'],
+            'title_ar' => ['string'],
             'text' => ['string'],
+            'text_ar' => ['string'],
             'whatsapp' => ['string'],
             'gender' => ['string', 'in:male,female'],
         ];
