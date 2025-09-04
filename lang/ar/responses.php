@@ -11,4 +11,7 @@ return [
     'Wrong Credentials' => 'بيانات تسجيل الدخول غير صحيحة',
     'Updated Successfully' => 'تم التحديث بنجاح',
     'Deleted Successfully' => 'تم الحذف بنجاح',
+    'Email Check' => 'تم ارسال رمز التحقق، يرجى التحقق من البريد الالكتروني',
+    'Wrong Code' => 'الرمز المدخل خاطئ'
+
 ];

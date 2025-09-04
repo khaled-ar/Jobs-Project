@@ -11,4 +11,6 @@ return [
     'Wrong Credentials' => 'Wrong Credentials!',
     'Updated Successfully' => 'Updated Successfully',
     'Deleted Successfully' => 'Deleted Successfully',
+    'Email Check' => 'Verification code sent, please check your email.',
+    'Wrong Code' => 'Wrong Code!'
 ];
