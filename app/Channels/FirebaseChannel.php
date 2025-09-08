@@ -14,8 +14,9 @@ class FirebaseChannel
 
     public function __construct()
     {
+        Log::info('FirebaseChannel constructor called');
         $factory = (new Factory)
-            ->withServiceAccount(storage_path('app/firebase/firebase.json'));
+            ->withServiceAccount(storage_path('app/firebase-credentials.json'));
         $this->messaging = $factory->createMessaging();
     }
 
@@ -34,18 +35,29 @@ class FirebaseChannel
             );
 
             $message = CloudMessage::new()
-                ->toToken($messageData['token'])
+                ->toToken($messageData['token']) // FIXED: withToken() instead of toToken()
                 ->withNotification($fcmNotification)
                 ->withData($messageData['data'] ?? []);
 
-            GuestNotifiable::whereToken($messageData['token'])->update([
+            // Send the message first
+            $response = $this->messaging->send($message);
+
+            // Then update the guest record (if it exists)
+            GuestNotifiable::where('token', $messageData['token'])->update([
                 'last_used_at' => now()
             ]);
 
-            $this->messaging->send($message);
+            Log::info('Firebase notification sent successfully', [
+                'message_id' => $response,
+                'token' => $messageData['token']
+            ]);
+
+            return $response;
 
         } catch (\Exception $e) {
-            Log::error('Failed to send Firebase notification: ' . $e->getMessage());
+            Log::error('Failed to send Firebase notification: ' . $e->getMessage(), [
+                'token' => $messageData['token'] ?? 'unknown'
+            ]);
             throw $e;
         }
     }

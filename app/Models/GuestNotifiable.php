@@ -10,4 +10,16 @@ class GuestNotifiable extends Model
 
     protected $guarded = [];
 
+
+    /**
+     * Route notifications for the Firebase channel.
+     *
+     * @return string
+     */
+
+    public function routeNotificationForFirebase()
+    {
+        return $this->token;
+    }
+
 }

@@ -5,9 +5,8 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use App\Channels\FirebaseChannel;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class FirebaseNotification extends Notification implements ShouldQueue
+class FirebaseNotification extends Notification
 {
     use Queueable;
 
