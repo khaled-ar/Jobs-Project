@@ -14,6 +14,8 @@ trait Files {
             mkdir(public_path($folder));
         }
         File::move($file->getRealPath(), public_path($folder) . '/' . $new_name);
+        // Set file permissions to 644 (rw-r--r--)
+        chmod(public_path($folder) . '/' . $new_name, 0644);
         return $new_name;
 
     }
