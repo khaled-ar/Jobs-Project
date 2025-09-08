@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Posts;
 
+use App\Jobs\SendFirebaseNotification;
 use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class StorePostRequest extends FormRequest
 {
@@ -33,7 +35,13 @@ class StorePostRequest extends FormRequest
     }
 
     public function store() {
+
         Post::create($this->validated());
+
+        if(Post::count() % 15 == 0) {
+            SendFirebaseNotification::dispatch();
+        }
+
         return $this->generalResponse(null, '201', 201);
     }
 }

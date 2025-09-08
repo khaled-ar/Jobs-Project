@@ -3,6 +3,7 @@
 use App\Http\Controllers\{
     AuthController,
     AdsController,
+    NotifiablesController,
     PostsController,
 };
 use App\Models\{
@@ -11,6 +12,9 @@ use App\Models\{
 };
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('firebase')->controller(NotifiablesController::class)->group(function() {
+    Route::post('', 'store_or_update');
+});
 
 Route::middleware('lang')->group(function() {
 
