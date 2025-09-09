@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        app()->setLocale('ar');
+    }
+
     public function login(LoginRequest $request) {
         return $request->check();
     }

@@ -71,11 +71,11 @@ class SendFirebaseNotification implements ShouldQueue
             $title = $body = '';
 
             if ($notifiable->locale == 'ar') {
-                $title = 'منشورات جديدة';
-                $body = 'لقد تم اضافة العديد من المنشورات الجديدة';
+                $title = 'فرص عمل جديدة';
+                $body = 'لقد تم اضافة العديد من فرص العمل الجديدة';
             } else {
-                $title = 'New Posts';
-                $body = 'Many new posts have been added.';
+                $title = 'New Job Opportunities';
+                $body = 'Many new job opportunities have been added.';
             }
 
             $notifiable->notify(new FirebaseNotification(
