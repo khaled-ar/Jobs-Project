@@ -28,8 +28,7 @@ class Post extends Model
         static::retrieved(function ($post) {
             $locale = app()->getLocale();
 
-            if($locale == 'ar')
-                $post->setAttribute('gender', $post->gender == 'male' ? 'ذكر' : 'انثى');
+            $post->setAttribute('gender', $post->gender == 'male' ? 'ذكر' : 'انثى');
 
             if(Route::currentRouteNamed('visitor.posts')) {
                 $title = $post->title;
