@@ -29,8 +29,8 @@ class PostsController extends Controller
         $gender = request('gender');
         return $this->generalResponse(
             $gender
-            ? Post::whereGender($gender)->latest()->paginate(10)
-            : Post::latest()->paginate(10)
+            ? Post::whereGender($gender)->latest()->paginate(15)
+            : Post::latest()->paginate(15)
         );
     }
 
