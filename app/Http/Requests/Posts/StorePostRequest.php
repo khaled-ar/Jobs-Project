@@ -14,6 +14,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        app()->setLocale('ar');
         return true;
     }
 
