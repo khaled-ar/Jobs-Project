@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,9 @@ class Post extends Model
 
     public function getCreatedDateAttribute()
     {
-        return $this->created_at->format('Y-m-d');
+        if($this->created_at->subDay() <= Carbon::yesterday())
+            return $this->created_at->format('Y-m-d');
+        return $this->created_at->diffForHumans();
     }
 
     protected static function booted()
