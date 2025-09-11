@@ -34,4 +34,10 @@ class AuthController extends Controller
     public function resend_code(ForgotPasswordRequest $request) {
         return $request->send_code();
     }
+
+    public function logout() {
+        $user = request()->user();
+        $user->tokens()->delete();
+        return $this->generalResponse(null, 'logout_success', 200);
+    }
 }

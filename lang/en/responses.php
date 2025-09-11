@@ -12,5 +12,6 @@ return [
     'Updated Successfully' => 'Updated Successfully',
     'Deleted Successfully' => 'Deleted Successfully',
     'Email Check' => 'Verification code sent, please check your email.',
-    'Wrong Code' => 'Wrong Code!'
+    'Wrong Code' => 'Wrong Code!',
+    'logout_success' => 'Logout Done Successfully',
 ];

@@ -12,6 +12,7 @@ return [
     'Updated Successfully' => 'تم التحديث بنجاح',
     'Deleted Successfully' => 'تم الحذف بنجاح',
     'Email Check' => 'تم ارسال رمز التحقق، يرجى التحقق من البريد الالكتروني',
-    'Wrong Code' => 'الرمز المدخل خاطئ'
+    'Wrong Code' => 'الرمز المدخل خاطئ',
+    'logout_success' => 'تم تسجيل الخروج بنجاح',
 
 ];

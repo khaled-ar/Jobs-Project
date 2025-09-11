@@ -33,6 +33,7 @@ Route::middleware('lang')->group(function() {
         Route::post('reset-password', 'reset_password');
         Route::post('verify', 'verify');
         Route::post('resend-code', 'resend_code')->middleware('throttle:1,1');
+        Route::post('logout', 'logout')->middleware('auth:sanctum');
     });
 
 });
