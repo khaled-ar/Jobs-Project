@@ -21,9 +21,13 @@ class Post extends Model
 
     public function getCreatedDateAttribute()
     {
-        if($this->created_at->subDay() <= Carbon::yesterday())
-            return $this->created_at->format('Y-m-d');
-        return $this->created_at->diffForHumans();
+        $createdAt = $this->created_at;
+
+        if ($createdAt->diffInHours() > 24) {
+            return $createdAt->format('Y-m-d');
+        }
+
+        return $createdAt->diffForHumans();
     }
 
     protected static function booted()
