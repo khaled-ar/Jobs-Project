@@ -213,6 +213,7 @@ return [
         'title_ar'                 => 'العنوان باللغة العربية',
         'updated_at'               => 'تاريخ التحديث',
         'whatsapp'                 => 'رقم الواتساب',
-        'description'              => 'الوصف'
+        'description'              => 'الوصف',
+        'link'                     => 'الرابط'
     ],
 ];

@@ -5,6 +5,7 @@ use App\Http\Controllers\{
     AdsController,
     NotifiablesController,
     PostsController,
+    UpdatesController,
 };
 use App\Models\{
     Ad,
@@ -20,6 +21,8 @@ Route::prefix('firebase')->controller(NotifiablesController::class)->group(funct
 Route::middleware('lang')->group(function() {
     Route::apiResource('ads', AdsController::class)->except(['index', 'show'])->middleware('auth:sanctum');
     Route::get('ads', [AdsController::class, 'index']);
+    Route::apiResource('updates', UpdatesController::class)->except(['index', 'show'])->middleware('auth:sanctum');
+    Route::get('updates', [UpdatesController::class, 'index']);
 
     Route::apiResource('posts', PostsController::class)->except(['index', 'show'])->middleware('auth:sanctum');
     Route::get('posts', [PostsController::class, 'index']);
