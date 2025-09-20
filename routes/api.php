@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('firebase')->controller(NotifiablesController::class)->group(function() {
     Route::post('', 'store_or_update');
+    Route::post('send-firebase-notification', 'send')->middleware('auth:sanctum');
 });
 
 Route::middleware('lang')->group(function() {
-
     Route::apiResource('ads', AdsController::class)->except(['index', 'show'])->middleware('auth:sanctum');
     Route::get('ads', [AdsController::class, 'index']);
 

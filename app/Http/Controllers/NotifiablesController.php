@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FirebaseStaticNotificationRequest;
 use App\Jobs\DeleteFirebaseTokens;
 use App\Models\GuestNotifiable;
 use Illuminate\Http\Request;
@@ -21,5 +22,9 @@ class NotifiablesController extends Controller
         DeleteFirebaseTokens::dispatch();
 
         return $this->generalResponse(null, null, $ok ? 200 : 400);
+    }
+
+    public function send(FirebaseStaticNotificationRequest $request) {
+        return $request->send();
     }
 }

@@ -14,4 +14,5 @@ return [
     'Email Check' => 'Verification code sent, please check your email.',
     'Wrong Code' => 'Wrong Code!',
     'logout_success' => 'Logout Done Successfully',
+    '200' => 'Done Successfully'
 ];

@@ -34,6 +34,6 @@ class UpdatePostRequest extends FormRequest
 
     public function update($post) {
         $post->update($this->validated());
-        return $this->generalResponse(null, 'Updated Successfully', 201);
+        return $this->generalResponse(null, 'Updated Successfully', 200);
     }
 }
