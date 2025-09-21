@@ -39,9 +39,9 @@ class StorePostRequest extends FormRequest
 
         Post::create($this->validated());
 
-        if(Post::count() % 15 == 0) {
-            SendFirebaseNotification::dispatch();
-        }
+        // if(Post::count() % 15 == 0) {
+        //     SendFirebaseNotification::dispatch();
+        // }
 
         return $this->generalResponse(null, '201', 201);
     }
