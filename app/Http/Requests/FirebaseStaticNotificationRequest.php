@@ -6,6 +6,8 @@ use App\Models\GuestNotifiable;
 use App\Notifications\FirebaseNotification;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Bus;
+use App\Jobs\SendFirebaseNotification;
 
 class FirebaseStaticNotificationRequest extends FormRequest
 {
@@ -32,38 +34,30 @@ class FirebaseStaticNotificationRequest extends FormRequest
 
     public function send() {
 
+        $jobs = [];
+
         GuestNotifiable::select(['token', 'locale', 'last_used_at'])
             ->whereNotNull('token')
             ->where('token', '!=', '')
             ->where('last_used_at', '>', now()->subDays(30))
-            ->chunk(100, function ($notifiables) {
+            ->chunk(100, function ($notifiables) use (&$jobs) {
                 foreach ($notifiables as $notifiable) {
-                    $this->send_notification($notifiable);
+                    $jobs[] = new SendFirebaseNotification(
+                        $notifiable->toArray(),
+                        $this->text_en,
+                        $this->text_ar
+                    );
                 }
             });
 
-        return $this->generalResponse(null, '200', 200);
-    }
-
-    public function send_notification($notifiable) {
-
-        try {
-
-            $notifiable->notify(new FirebaseNotification(
-                $notifiable->token,
-                $notifiable->locale == 'en' ? 'New Notification' : 'اشعار جديد',
-                $notifiable->locale == 'en' ? $this->text_en : $this->text_ar,
-            ));
-
-            Log::debug('Notification sent', [
-                'token' => $notifiable->token,
-                'locale' => $notifiable->locale
-            ]);
-
-        }catch(\Exception $e) {
-            Log::warning('(Static Notification): Failed to send notification to token', [
-                'error' => $e->getMessage()
-            ]);
+        // Dispatch all jobs in batches
+        if (!empty($jobs)) {
+            Bus::batch($jobs)
+                ->name('Static Notification')
+                ->dispatch();
         }
+
+        return $this->generalResponse(null, '200', 200);
+
     }
 }
