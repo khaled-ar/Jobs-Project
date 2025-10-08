@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $currentAliases = $middleware->getMiddlewareAliases();
         $middleware->alias(array_merge($currentAliases, [
             'lang' => \App\Http\Middleware\Lang::class,
+            'admin' => \App\Http\Middleware\Admin::class,
         ]));
 
     })

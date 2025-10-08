@@ -30,6 +30,15 @@ class Post extends Model
         return $createdAt->diffForHumans();
     }
 
+    public function scopeStatus($query)
+    {
+        $status = request('status');
+        if($status == 'pending') {
+            return $query->whereStatus('pending');
+        }
+        return $query->whereStatus('active');
+    }
+
     protected static function booted()
     {
         static::retrieved(function ($post) {

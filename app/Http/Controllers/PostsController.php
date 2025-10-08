@@ -10,6 +10,7 @@ use App\Http\Requests\Posts\{
 use App\Models\Post;
 use Illuminate\Http\Request;
 
+
 class PostsController extends Controller
 {
     /**
@@ -20,8 +21,8 @@ class PostsController extends Controller
         $gender = request('gender');
         return $this->generalResponse(
             $gender
-            ? Post::whereGender($gender)->latest()->paginate(10)
-            : Post::latest()->paginate(10)
+            ? Post::status()->whereGender($gender)->latest()->paginate(10)->makeHidden(['status', 'user_id'])
+            : Post::status()->latest()->paginate(10)->makeHidden(['status', 'user_id'])
         );
     }
 
@@ -29,8 +30,8 @@ class PostsController extends Controller
         $gender = request('gender');
         return $this->generalResponse(
             $gender
-            ? Post::whereStatus('active')->whereGender($gender)->latest()->paginate(15)
-            : Post::whereStatus('active')->latest()->paginate(15)
+            ? Post::whereStatus('active')->whereGender($gender)->latest()->paginate(15)->makeHidden(['status', 'user_id'])
+            : Post::whereStatus('active')->latest()->paginate(15)->makeHidden(['status', 'user_id'])
         );
     }
 
