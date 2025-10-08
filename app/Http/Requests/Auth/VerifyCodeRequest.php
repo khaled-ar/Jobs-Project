@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Cache;
 
@@ -32,6 +33,9 @@ class VerifyCodeRequest extends FormRequest
         $code = Cache::get($this->email);
         if($code == $this->code) {
             Cache::forget($this->email);
+            if(request('account')) {
+                User::whereEmail($this->email)->update(['email_verified_at' => now()]);
+            }
             return $this->generalResponse(null, null, 200);
         }
         return $this->generalResponse(null, 'Wrong Code', 400);

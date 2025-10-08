@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\ForgotPasswordRequest;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
-use App\Http\Requests\Auth\VerifyCodeRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\{
+    ForgotPasswordRequest,
+    LoginRequest,
+    RegisterRequest,
+    ResetPasswordRequest,
+    VerifyCodeRequest
+};
+
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        app()->setLocale('ar');
+        //app()->setLocale('ar');
+    }
+
+    public function register(RegisterRequest $request) {
+        return $request->register();
     }
 
     public function login(LoginRequest $request) {
