@@ -14,5 +14,6 @@ return [
     'Email Check' => 'تم ارسال رمز التحقق، يرجى التحقق من البريد الالكتروني',
     'Wrong Code' => 'الرمز المدخل خاطئ',
     'logout_success' => 'تم تسجيل الخروج بنجاح',
-    '200' => 'تمت العملية بنجاح'
+    '200' => 'تمت العملية بنجاح',
+    'Added successfully, please wait for approval from the administrator' => 'تمت الاضافة بنجاح، الرجاء انتظار الموافقة من المدير'
 ];

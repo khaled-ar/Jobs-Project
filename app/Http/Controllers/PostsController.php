@@ -29,8 +29,8 @@ class PostsController extends Controller
         $gender = request('gender');
         return $this->generalResponse(
             $gender
-            ? Post::whereGender($gender)->latest()->paginate(15)
-            : Post::latest()->paginate(15)
+            ? Post::whereStatus('active')->whereGender($gender)->latest()->paginate(15)
+            : Post::whereStatus('active')->latest()->paginate(15)
         );
     }
 
@@ -41,6 +41,15 @@ class PostsController extends Controller
     {
         return $request->store();
     }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function add_post(StorePostRequest $request)
+    {
+        return $request->store();
+    }
+
 
     /**
      * Display the specified resource.

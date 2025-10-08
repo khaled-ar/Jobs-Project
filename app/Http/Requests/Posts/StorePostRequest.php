@@ -14,7 +14,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        app()->setLocale('ar');
+        // app()->setLocale('ar');
         return true;
     }
 
@@ -36,6 +36,14 @@ class StorePostRequest extends FormRequest
     }
 
     public function store() {
+        $user = request()->user();
+        $data = $this->validated();
+        $data['status'] = 'pending';
+
+        if($user->role == 'user') {
+            $user->posts()->create($data);
+            return $this->generalResponse(null, 'Added successfully, please wait for approval from the administrator', 201);
+        }
 
         Post::create($this->validated());
 
