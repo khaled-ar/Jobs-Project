@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Posts\{
+    AcceptPostRequest,
     DeletePostRequest,
+    RejectPostRequest,
     StorePostRequest,
     UpdatePostRequest,
 };
@@ -55,6 +57,15 @@ class PostsController extends Controller
         return $request->store();
     }
 
+    public function accept(AcceptPostRequest $request, Post $post)
+    {
+        return $request->accept($post);
+    }
+
+    public function reject(RejectPostRequest $request, Post $post)
+    {
+        return $request->reject($post);
+    }
 
     /**
      * Display the specified resource.

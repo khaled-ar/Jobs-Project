@@ -19,6 +19,10 @@ class Post extends Model
         'created_date',
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function getCreatedDateAttribute()
     {
         $createdAt = $this->created_at;
