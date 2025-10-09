@@ -9,7 +9,10 @@ use App\Http\Requests\Posts\{
     StorePostRequest,
     UpdatePostRequest,
 };
-use App\Models\Post;
+use App\Models\{
+    Post,
+    Setting
+};
 use Illuminate\Http\Request;
 
 
@@ -65,6 +68,14 @@ class PostsController extends Controller
     public function reject(RejectPostRequest $request, Post $post)
     {
         return $request->reject($post);
+    }
+
+    public function config() {
+        Setting::updateOrCreate(
+            ['key' => 'post.automatic_approval'],
+            ['value' => request('automatic_approval')]
+        );
+        return $this->generalResponse(null, null, 200);
     }
 
     /**

@@ -13,6 +13,7 @@ Route::controller(PostsController::class)->group(function() {
     Route::get('posts', 'index')->middleware(['auth:sanctum', 'admin']);
     Route::post('posts/accept/{post}', 'accept')->middleware(['auth:sanctum', 'admin']);
     Route::post('posts/reject/{post}', 'reject')->middleware(['auth:sanctum', 'admin']);
+    Route::post('posts/config', 'config')->middleware(['auth:sanctum', 'admin']);
     Route::get('visitor/posts', 'all_for_visitor')->name('visitor.posts');
     Route::post('visitor/posts', 'add_post')->middleware('auth:sanctum');
 });
