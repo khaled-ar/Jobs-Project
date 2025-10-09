@@ -21,5 +21,4 @@ class GuestNotifiable extends Model
     {
         return $this->token;
     }
-
 }

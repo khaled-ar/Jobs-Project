@@ -45,6 +45,10 @@ class User extends Authenticatable
         return $this->hasMany(PostsReport::class);
     }
 
+    public function fcm() {
+        return $this->hasOne(GuestNotifiable::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -57,4 +61,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
 }
