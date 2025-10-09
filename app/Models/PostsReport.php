@@ -22,4 +22,16 @@ class PostsReport extends Model
     {
         return $this->image ? asset("Images/PostsReports") . '/' . $this->image : null;
     }
+
+    public function post() {
+        return $this->belongsTo(Post::class)->select([
+            'id', 'user_id', 'title_ar', 'whatsapp'
+        ]);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class)->select([
+            'id', 'username'
+        ]);;
+    }
 }
