@@ -24,6 +24,12 @@ Route::middleware('lang')->group(function() {
     Route::apiResource('updates', UpdatesController::class)->except(['index', 'show'])->middleware('auth:sanctum');
     Route::get('updates', [UpdatesController::class, 'index']);
 
+    // Posts Reports Routes
+    include base_path('/routes/posts_reports.php');
+
+    // Users Routes
+    include base_path('/routes/users.php');
+
     // Posts Routes
     include base_path('/routes/posts.php');
 
