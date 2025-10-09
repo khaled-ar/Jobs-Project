@@ -38,8 +38,8 @@ class RejectPostRequest extends FormRequest
 
         $jobs[] = new SendFirebaseNotification(
             $notifiable->toArray(),
-            "Job rejected, Job Title {$post->title_en}, Reject Reason: {$this->reason_en}",
-            "سبب الرفض: {$this->reason_ar} ،{$post->title_ar} تم رفض الوظيفة، عنوان الوظيفة"
+            "Job rejected, Job Title {$post->title}, Reject Reason: {$this->reason_en}",
+            "مع الاسف تم رفض الوظيفة" . "، سبب الرفض: {$this->reason_ar}"
         );
 
         // Dispatch all jobs in batches
