@@ -1,16 +1,11 @@
 <?php
 
 use App\Http\Controllers\{
-    AuthController,
     AdsController,
     NotifiablesController,
-    PostsController,
     UpdatesController,
 };
-use App\Models\{
-    Ad,
-    Post
-};
+
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('firebase')->controller(NotifiablesController::class)->group(function() {

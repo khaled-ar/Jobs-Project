@@ -6,7 +6,6 @@ use App\Http\Requests\FirebaseStaticNotificationRequest;
 use App\Jobs\DeleteFirebaseTokens;
 use App\Models\GuestNotifiable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class NotifiablesController extends Controller
 {
@@ -17,7 +16,19 @@ class NotifiablesController extends Controller
             'locale' => ['required', 'in:ar,en']
         ]);
 
-        $ok = GuestNotifiable::updateOrCreate(['token' => $data['token']], ['locale' => $data['locale']]);
+        $user = null;
+        if ($token = $request->bearerToken()) {
+            $user = \Laravel\Sanctum\PersonalAccessToken::findToken($token)?->tokenable;
+        }
+
+        if($user) {
+            $ok = $user->update(['fcm' => $data['locale'] . $data['token']]);
+
+        } else {
+            $ok = GuestNotifiable::updateOrCreate(
+                ['token' => $data['token']],
+                ['locale' => $data['locale']]);
+        }
 
         DeleteFirebaseTokens::dispatch();
 

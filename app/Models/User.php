@@ -22,7 +22,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'phone'
+        'phone',
+        'fcm'
     ];
 
     /**
@@ -35,6 +36,7 @@ class User extends Authenticatable
         'remember_token',
         'created_at',
         'updated_at',
+        'fcm'
     ];
 
     public function posts() {
@@ -43,10 +45,6 @@ class User extends Authenticatable
 
     public function posts_reports() {
         return $this->hasMany(PostsReport::class);
-    }
-
-    public function fcm() {
-        return $this->hasOne(GuestNotifiable::class);
     }
 
     /**
