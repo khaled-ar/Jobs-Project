@@ -19,20 +19,24 @@ class PostsController extends Controller
     public function index()
     {
         $gender = request('gender');
-        return $this->generalResponse(
-            $gender
-            ? Post::status()->whereGender($gender)->latest()->paginate(10)->makeHidden(['status', 'user_id'])
-            : Post::status()->latest()->paginate(10)->makeHidden(['status', 'user_id'])
-        );
+        $posts = $gender
+            ? Post::status()->whereGender($gender)->latest()->paginate(10)
+            : Post::status()->latest()->paginate(10);
+        $posts->getCollection()->transform(function ($post) {
+            return $post->makeHidden(['status', 'user_id']);
+        });
+        return $this->generalResponse($posts);
     }
 
     public function all_for_visitor() {
         $gender = request('gender');
-        return $this->generalResponse(
-            $gender
-            ? Post::whereStatus('active')->whereGender($gender)->latest()->paginate(15)->makeHidden(['status', 'user_id'])
-            : Post::whereStatus('active')->latest()->paginate(15)->makeHidden(['status', 'user_id'])
-        );
+        $posts = $gender
+            ? Post::whereStatus('active')->whereGender($gender)->latest()->paginate(15)
+            : Post::whereStatus('active')->latest()->paginate(15);
+        $posts->getCollection()->transform(function ($post) {
+            return $post->makeHidden(['status', 'user_id']);
+        });
+        return $this->generalResponse($posts);
     }
 
     /**
