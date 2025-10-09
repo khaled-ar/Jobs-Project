@@ -216,6 +216,8 @@ return [
         'description'              => 'الوصف',
         'link'                     => 'الرابط',
         'answer_ar'                   => 'الاجابة',
-        'post_report_id'           => 'معرف البلاغ'
+        'post_report_id'           => 'معرف البلاغ',
+        'reason_en'                 => 'السبب بالانكليزي',
+        'reason_ar'                 => 'السبب بالعربي',
     ],
 ];

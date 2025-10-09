@@ -29,7 +29,7 @@ class AcceptPostRequest extends FormRequest
     }
 
     public function accept($post) {
-        $post->update(['status' => 'active']);
+        // $post->update(['status' => 'active']);
         $notifiable = $post->user;
         $notifiable->locale = substr($notifiable->fcm, 0, 2);
         $notifiable->token = substr($notifiable->fcm, 2);
@@ -38,7 +38,7 @@ class AcceptPostRequest extends FormRequest
 
         $jobs[] = new SendFirebaseNotification(
             $notifiable->toArray(),
-            "Job accepted successfully, Job Title {$post->title_en}",
+            "Job accepted successfully, Job Title {$post->title}",
             "{$post->title_ar} تم قبول الوظيفة بنجاح، عنوان الوظيفة"
         );
 
