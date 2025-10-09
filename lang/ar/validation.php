@@ -214,6 +214,8 @@ return [
         'updated_at'               => 'تاريخ التحديث',
         'whatsapp'                 => 'رقم الواتساب',
         'description'              => 'الوصف',
-        'link'                     => 'الرابط'
+        'link'                     => 'الرابط',
+        'answer_ar'                   => 'الاجابة',
+        'post_report_id'           => 'معرف البلاغ'
     ],
 ];
