@@ -4,6 +4,7 @@ namespace App\Http\Requests\Posts;
 
 use App\Jobs\SendFirebaseNotification;
 use App\Models\Post;
+use App\Models\Setting;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 
@@ -41,6 +42,11 @@ class StorePostRequest extends FormRequest
         $data['status'] = 'pending';
 
         if($user->role == 'user') {
+            if((Setting::where('key', 'post.automatic_approval')->first())->value) {
+                $data['status'] = 'active';
+                $user->posts()->create($data);
+                return $this->generalResponse(null, '201', 201);
+            }
             $user->posts()->create($data);
             return $this->generalResponse(null, 'Added successfully, please wait for approval from the administrator', 201);
         }
