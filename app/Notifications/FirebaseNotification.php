@@ -18,7 +18,6 @@ class FirebaseNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param string $token Device token (required for guests)
      * @param string $title Notification title.
      * @param string $body Notification body.
      * @param array  $data Optional extra data payload.

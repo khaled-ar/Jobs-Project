@@ -41,21 +41,14 @@ class PostsReportsController extends Controller
         $notifiable = $report->user;
         $notifiable->locale = substr($notifiable->fcm, 0, 2);
         $notifiable->token = substr($notifiable->fcm, 2);
-        $jobs = [];
 
-        $jobs[] = new SendFirebaseNotification(
-            $notifiable->toArray(),
+        dispatch(new SendFirebaseNotification(
+            $notifiable->token,
+            $notifiable->locale,
             $data['answer_en'],
-            $data['answer_ar']
-        );
-
-        // Dispatch all jobs in batches
-        if (!empty($jobs)) {
-            Bus::batch($jobs)
-                ->name('Static Notification')
-                ->dispatch();
-            $report->update(['answered' => 1]);
-        }
+            $data['answer_ar'],
+            $notifiable
+        ));
 
         return $this->generalResponse(null, null, 200);
     }

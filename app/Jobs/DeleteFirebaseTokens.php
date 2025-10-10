@@ -27,6 +27,6 @@ class DeleteFirebaseTokens implements ShouldQueue
      */
     public function handle(): void
     {
-        GuestNotifiable::where('last_used_at', '<', now()->subDays(30))->delete();
+        GuestNotifiable::where('last_used_at', '<', now()->subDays(5))->delete();
     }
 }

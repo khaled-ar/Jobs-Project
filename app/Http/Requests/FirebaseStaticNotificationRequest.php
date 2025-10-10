@@ -33,31 +33,52 @@ class FirebaseStaticNotificationRequest extends FormRequest
     }
 
     public function send() {
-
         $jobs = [];
+        $totalUsers = 0;
 
         GuestNotifiable::select(['token', 'locale', 'last_used_at'])
             ->whereNotNull('token')
             ->where('token', '!=', '')
             ->where('last_used_at', '>', now()->subDays(30))
-            ->chunk(100, function ($notifiables) use (&$jobs) {
+            ->chunk(100, function ($notifiables) use (&$jobs, &$totalUsers) {
+                $totalUsers += $notifiables->count();
                 foreach ($notifiables as $notifiable) {
                     $jobs[] = new SendFirebaseNotification(
-                        $notifiable->toArray(),
+                        $notifiable->token,
+                        $notifiable->locale,
                         $this->text_en,
                         $this->text_ar
                     );
                 }
             });
 
-        // Dispatch all jobs in batches
+        Log::info('Preparing to send notifications', [
+            'total_users' => $totalUsers,
+            'jobs_created' => count($jobs)
+        ]);
+
         if (!empty($jobs)) {
-            Bus::batch($jobs)
+            $batch = Bus::batch($jobs)
                 ->name('Static Notification')
+                ->then(function () use ($totalUsers) {
+                    Log::info('All notifications sent successfully', [
+                        'total_users' => $totalUsers
+                    ]);
+                })
+                ->catch(function (\Throwable $e) {
+                    Log::error('Notification batch failed', [
+                        'error' => $e->getMessage()
+                    ]);
+                })
                 ->dispatch();
+
+            Log::info('Notification batch dispatched', [
+                'batch_id' => $batch->id,
+                'job_count' => count($jobs)
+            ]);
         }
 
         return $this->generalResponse(null, '200', 200);
-
     }
+
 }
