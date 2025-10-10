@@ -42,7 +42,7 @@ class RejectPostRequest extends FormRequest
             $notifiable
         ));
 
-        // $post->delete();
+        $post->delete();
         return $this->generalResponse(null, null, 200);
     }
 }

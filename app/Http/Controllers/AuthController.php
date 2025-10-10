@@ -47,4 +47,10 @@ class AuthController extends Controller
         $user->tokens()->delete();
         return $this->generalResponse(null, 'logout_success', 200);
     }
+
+    public function delete_account() {
+        $user = request()->user();
+        $user->delete();
+        return $this->generalResponse(null, '200', 200);
+    }
 }
