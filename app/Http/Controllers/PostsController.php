@@ -30,7 +30,18 @@ class PostsController extends Controller
         $posts->getCollection()->transform(function ($post) {
             return $post->makeHidden(['status', 'user_id']);
         });
-        return $this->generalResponse($posts);
+        $response = [
+                'current_page' => $posts->currentPage(),
+                'data' => $posts->items(),
+                'total' => $posts->total(),
+                'per_page' => $posts->perPage(),
+        ];
+
+        if(request('status') == 'pending') {
+            $response['auto_approval'] = Setting::where('key', 'post.automatic_approval')->first()->value;
+        }
+
+        return $this->generalResponse($response);
     }
 
     public function all_for_visitor() {
