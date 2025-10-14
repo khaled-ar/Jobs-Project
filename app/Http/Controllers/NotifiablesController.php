@@ -27,7 +27,7 @@ class NotifiablesController extends Controller
 
         $ok = GuestNotifiable::updateOrCreate(
         ['token' => $data['token']],
-        ['locale' => $data['locale']]);
+        ['locale' => $data['locale'], 'last_used_at' => now()]);
 
         DeleteFirebaseTokens::dispatch();
 
