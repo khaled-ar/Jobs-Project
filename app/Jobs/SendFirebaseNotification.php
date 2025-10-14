@@ -21,7 +21,6 @@ class SendFirebaseNotification implements ShouldQueue
         public string $locale,
         public string $textEn,
         public string $textAr,
-        public $notifiable = null
     ) {}
 
     public function handle(): void
@@ -32,13 +31,10 @@ class SendFirebaseNotification implements ShouldQueue
         }
 
         try {
-            $notifiable = $this->notifiable;
-            if($notifiable == null) {
-                // Create a proper notifiable instance
-                $notifiable = new GuestNotifiable();
-                $notifiable->token = $this->token;
-                $notifiable->locale = $this->locale;
-            }
+
+            $notifiable = new GuestNotifiable();
+            $notifiable->token = $this->token;
+            $notifiable->locale = $this->locale;
 
             // Determine title and body based on locale
             $title = $this->locale === 'en' ? 'New Notification' : 'اشعار جديد';

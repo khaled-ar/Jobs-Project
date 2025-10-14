@@ -23,12 +23,11 @@ class NotifiablesController extends Controller
 
         if($user) {
             $ok = $user->update(['fcm' => $data['locale'] . $data['token']]);
-
-        } else {
-            $ok = GuestNotifiable::updateOrCreate(
-                ['token' => $data['token']],
-                ['locale' => $data['locale']]);
         }
+
+        $ok = GuestNotifiable::updateOrCreate(
+        ['token' => $data['token']],
+        ['locale' => $data['locale']]);
 
         DeleteFirebaseTokens::dispatch();
 

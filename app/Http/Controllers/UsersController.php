@@ -12,7 +12,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return $this->generalResponse(User::whereRole('user')->with('posts')->get());
+        return $this->generalResponse(User::whereRole('user')->latest()->with('posts')->get());
     }
 
     /**
