@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
 class EmailVerificationCode extends Notification
 {
@@ -35,7 +34,7 @@ class EmailVerificationCode extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $code = Str::random(6);
+        $code = substr(str_shuffle('0123456789'), 0, 6);
         Cache::put($notifiable->email, $code, 60 * 5);
 
         return (new MailMessage)
