@@ -6,7 +6,7 @@ use App\Http\Requests\StorePostReportRequest;
 use App\Jobs\SendFirebaseNotification;
 use App\Models\PostsReport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Bus;
+use App\Traits\Files;
 
 class PostsReportsController extends Controller
 {
@@ -20,6 +20,7 @@ class PostsReportsController extends Controller
                 'id' => $report->id,
                 'post_id' => $report->post_id,
                 'username' => $report->user->username,
+                'email' => $report->user->email,
                 'title' => $report->post->title_ar,
                 'whatsapp' => $report->post->whatsapp,
                 'image_url' => $report->image_url
@@ -80,8 +81,10 @@ class PostsReportsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(PostsReport $posts_report)
     {
-        //
+        Files::deleteFile(public_path("Images/PostsReports/{$posts_report->image}"));
+        $posts_report->delete();
+        return $this->generalResponse(null, null);
     }
 }

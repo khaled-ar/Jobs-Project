@@ -31,7 +31,7 @@ class PostsReport extends Model
 
     public function user() {
         return $this->belongsTo(User::class)->select([
-            'id', 'username', 'fcm'
+            'id', 'username', 'email', 'fcm'
         ]);
     }
 }
