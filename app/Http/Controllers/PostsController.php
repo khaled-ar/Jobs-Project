@@ -24,8 +24,9 @@ class PostsController extends Controller
     public function index()
     {
         $gender = request('gender');
+        $genders = $gender == 'female' ? ['انثى', 'female'] : ['ذكر', 'male'];
         $posts = $gender
-            ? Post::status()->whereGender($gender)->latest()->paginate(10)
+            ? Post::status()->whereIn('gender', $genders)->latest()->paginate(10)
             : Post::status()->latest()->paginate(10);
         $posts->getCollection()->transform(function ($post) {
             return $post->makeHidden(['status', 'user_id']);
@@ -46,8 +47,10 @@ class PostsController extends Controller
 
     public function all_for_visitor() {
         $gender = request('gender');
+        $genders = $gender == 'female' ? ['انثى', 'female'] : ['ذكر', 'male'];
+
         $posts = $gender
-            ? Post::whereStatus('active')->whereGender($gender)->latest()->paginate(15)
+            ? Post::whereStatus('active')->whereIn('gender', $genders)->latest()->paginate(15)
             : Post::whereStatus('active')->latest()->paginate(15);
         $posts->getCollection()->transform(function ($post) {
             return $post->makeHidden(['status', 'user_id']);
