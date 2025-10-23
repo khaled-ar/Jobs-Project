@@ -29,19 +29,21 @@ class PostsController extends Controller
             ? Post::status()->whereIn('gender', $genders)->latest()->paginate(10)
             : Post::status()->latest()->paginate(10);
         $posts->getCollection()->transform(function ($post) {
+            $post->gender = ($post->gender == 'male' || $post->gender == 'ذكر') ? 'ذكر' : 'انثى';
             return $post->makeHidden(['status', 'user_id']);
         });
-        $response = [
+        
+        $response = $posts;
+
+        if(request('status') == 'pending') {
+            $response = [
                 'current_page' => $posts->currentPage(),
                 'data' => $posts->items(),
                 'total' => $posts->total(),
                 'per_page' => $posts->perPage(),
-        ];
-
-        if(request('status') == 'pending') {
-            $response['auto_approval'] = Setting::where('key', 'post.automatic_approval')->first()->value;
+                'auto_approval' => Setting::where('key', 'post.automatic_approval')->first()->value
+            ];
         }
-
         return $this->generalResponse($response);
     }
 
