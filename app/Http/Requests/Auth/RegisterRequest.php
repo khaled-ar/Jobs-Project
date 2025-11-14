@@ -29,11 +29,8 @@ class RegisterRequest extends FormRequest
             'phone' =>  ['string', 'max:50', 'unique:users,phone'],
             'email' =>  ['required', 'email', 'max:50', 'unique:users,email'],
             'password' => ['required', 'string',
-                Password::min(8)
+                Password::min(4)
                     ->max(25)
-                    ->numbers()
-                    ->symbols()
-                    ->mixedCase()
                     ->uncompromised()
                 ]
         ];

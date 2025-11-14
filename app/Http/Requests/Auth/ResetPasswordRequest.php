@@ -28,11 +28,8 @@ class ResetPasswordRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'exists:users,email'],
             'password' => ['required', 'string', 'confirmed',
-                Password::min(8)
+                Password::min(4)
                     ->max(25)
-                    ->numbers()
-                    ->symbols()
-                    ->mixedCase()
                     ->uncompromised()
                 ]
         ];
