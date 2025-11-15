@@ -27,9 +27,7 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
             'title_ar' => ['required', 'string'],
-            'text' => ['required', 'string'],
             'text_ar' => ['required', 'string'],
             'whatsapp' => ['required', 'string'],
             'gender' => ['required', 'string', 'in:male,female'],
@@ -52,11 +50,6 @@ class StorePostRequest extends FormRequest
         }
 
         Post::create($this->validated());
-
-        // if(Post::count() % 15 == 0) {
-        //     SendFirebaseNotification::dispatch();
-        // }
-
         return $this->generalResponse(null, '201', 201);
     }
 }
