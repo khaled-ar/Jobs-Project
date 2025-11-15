@@ -26,7 +26,8 @@ class StoreAdRequest extends FormRequest
     {
         return [
             'image' => ['required', 'image', 'mimes:png,jpg', 'max:2048'],
-            'whatsapp' => ['required', 'string']
+            'text_ar' => ['required', 'string'],
+            'url' => ['required', 'string']
         ];
     }
 
