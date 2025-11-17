@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\GoogleTranslateService;
 use Illuminate\Foundation\{
     Application,
     Configuration\Exceptions,
@@ -38,34 +39,40 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
 
         $exceptions->render(function (Exception|Throwable $e, Request $request) {
+            $locale = app()->getLocale();
+            if($locale != 'en') {
+                $service = new GoogleTranslateService();
+                $en_responses = include base_path('/lang/en/responses.php');
+            }
+
 
             if ($e instanceof ThrottleRequestsException) {
                 return response()->json([
-                    'message' => __('responses.error_429'),
+                    'message' => isset($service) ? $service->translate($en_responses['error_429'], $locale, 'en') :  __('responses.error_429'),
                 ], 429);
             }
 
             if ($e instanceof NotFoundHttpException) {
                 return response()->json([
-                    'message' => __('responses.error_404'),
+                    'message' => isset($service) ? $service->translate($en_responses['error_404'], $locale, 'en') :  __('responses.error_404'),
                 ], 404);
             }
 
             if ($e instanceof AccessDeniedHttpException) {
                 return response()->json([
-                    'message' => __('responses.error_403'),
+                    'message' => isset($service) ? $service->translate($en_responses['error_403'], $locale, 'en') :  __('responses.error_403'),
                 ], 403);
             }
 
             if ($e instanceof UniqueConstraintViolationException) {
                 return response()->json([
-                    'message' => __('responses.error_unique'),
+                    'message' => isset($service) ? $service->translate($en_responses['error_unique'], $locale, 'en') :  __('responses.error_unique'),
                 ], 400);
             }
 
             if ($e instanceof QueryException) {
                 return response()->json([
-                    'message' => __('responses.error_500'),
+                    'message' => isset($service) ? $service->translate($en_responses['error_500'], $locale, 'en') :  __('responses.error_500'),
                 ], 500);
             }
 
@@ -74,6 +81,12 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->flatten()
                     ->values()
                     ->all();
+
+                if(isset($service)) {
+                    foreach($res_errors as $i => $res_error) {
+                        $res_errors[$i] = $service->translate($res_error, $locale);
+                    }
+                }
 
                 return response()->json([
                     'errors' => $res_errors,
