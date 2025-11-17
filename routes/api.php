@@ -7,6 +7,12 @@ use App\Http\Controllers\{
 };
 
 use Illuminate\Support\Facades\Route;
+use App\Services\GoogleTranslateService;
+
+Route::post('translate', function() {
+    $service = new GoogleTranslateService();
+    return $service->translate('hi my name is khaled', 'fr', 'en');
+});
 
 Route::prefix('firebase')->controller(NotifiablesController::class)->group(function() {
     Route::post('', 'store_or_update');
