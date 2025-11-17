@@ -13,11 +13,15 @@ use App\Models\{
     Post,
     Setting
 };
+use App\Services\GoogleTranslateService;
 use Illuminate\Http\Request;
 
 
 class PostsController extends Controller
 {
+
+    public function __construct(private GoogleTranslateService $service){}
+
     /**
      * Display a listing of the resource.
      */
@@ -30,9 +34,15 @@ class PostsController extends Controller
             : Post::status()->latest()->paginate(10);
         $posts->getCollection()->transform(function ($post) {
             $post->gender = ($post->gender == 'male' || $post->gender == 'ذكر') ? 'ذكر' : 'انثى';
-            return $post->makeHidden(['status', 'user_id']);
+            $post->makeHidden(['status', 'user_id']);
+            $source = $this->service->detectLanguage($post->text_ar);
+            if($source != 'ar') {
+                $post->text_ar = $this->service->translate($post->text_ar,'ar');
+                $post->title_ar = $this->service->translate($post->title_ar, 'ar');
+            }
+            return $post;
         });
-        
+
         $response = $posts;
 
         if(request('status') == 'pending') {
@@ -55,7 +65,18 @@ class PostsController extends Controller
             ? Post::whereStatus('active')->whereIn('gender', $genders)->latest()->paginate(15)
             : Post::whereStatus('active')->latest()->paginate(15);
         $posts->getCollection()->transform(function ($post) {
-            return $post->makeHidden(['status', 'user_id']);
+            $post->makeHidden(['status', 'user_id']);
+            $target = app()->getLocale();
+            $source = $this->service->detectLanguage($post->text_ar);
+            if($source != $target) {
+                $post->text = $this->service->translate($post->text_ar, $target);
+                $post->title = $this->service->translate($post->title_ar, $target);
+            } else {
+                $post->text = $post->text_ar;
+                $post->title = $post->title_ar;
+            }
+            unset($post->title_ar, $post->text_ar);
+            return $post;
         });
         return $this->generalResponse($posts);
     }

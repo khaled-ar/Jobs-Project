@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GoogleTranslateService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,7 @@ class Post extends Model
             return $createdAt->format('Y-m-d');
         }
 
-        return $createdAt->diffForHumans();
+        return (new GoogleTranslateService())->translate($createdAt->diffForHumans(), app()->getLocale());
     }
 
     public function scopeStatus($query)
@@ -49,22 +50,15 @@ class Post extends Model
             $locale = app()->getLocale();
 
             if(Route::currentRouteNamed('visitor.posts')) {
-                $title = $post->title;
-                $text = $post->text;
 
                 if($locale == 'ar') {
-                    $title = $post->title_ar;
-                    $text = $post->text_ar;
                     $gender = ($post->gender == 'male' || $post->gender == 'ذكر') ? 'ذكر' : 'انثى';
                 } else {
                     $gender = ($post->gender == 'male' || $post->gender == 'ذكر') ? 'male' : 'female';
                 }
 
-                $post->setAttribute('title', $title);
-                $post->setAttribute('text', $text);
                 $post->setAttribute('gender', $gender);
 
-                unset($post->title_ar, $post->text_ar);
             }
         });
     }

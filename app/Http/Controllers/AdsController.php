@@ -8,20 +8,28 @@ use App\Http\Requests\Ads\{
     StoreAdRequest
 };
 use App\Models\Ad;
+use App\Services\GoogleTranslateService;
 use App\Traits\Files;
 
 
 class AdsController extends Controller
 {
+        public function __construct(private GoogleTranslateService $service){}
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return $this->generalResponse(
-            Ad::latest()->paginate(10),
-        );
+        $ads = Ad::latest()->paginate(10);
+        $target = app()->getLocale();
+        $ads->getCollection()->transform(function ($ad) use($target) {
+            if($target != 'ar') {
+                $ad->text_ar = $this->service->translate($ad->text_ar, $target);
+            }
+            return $ad;
+        });
+        return $this->generalResponse($ads);
     }
 
     /**
