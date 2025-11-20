@@ -30,7 +30,6 @@ class ResetPasswordRequest extends FormRequest
             'password' => ['required', 'string', 'confirmed',
                 Password::min(4)
                     ->max(25)
-                    ->uncompromised()
                 ]
         ];
     }

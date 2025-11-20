@@ -31,7 +31,6 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'string',
                 Password::min(4)
                     ->max(25)
-                    ->uncompromised()
                 ]
         ];
     }
