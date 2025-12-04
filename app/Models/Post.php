@@ -31,8 +31,8 @@ class Post extends Model
         if ($createdAt->diffInHours() > 24) {
             return $createdAt->format('Y-m-d');
         }
-
-        return (new GoogleTranslateService())->translate($createdAt->diffForHumans(), app()->getLocale());
+        return $createdAt->diffForHumans();
+        //return (new GoogleTranslateService())->translate($createdAt->diffForHumans(), app()->getLocale());
     }
 
     public function scopeStatus($query)
