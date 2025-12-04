@@ -45,7 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 $en_responses = include base_path('/lang/en/responses.php');
             }
 
-
+            unset($service);
             if ($e instanceof ThrottleRequestsException) {
                 return response()->json([
                     'message' => isset($service) ? $service->translate($en_responses['error_429'], $locale, 'en') :  __('responses.error_429'),

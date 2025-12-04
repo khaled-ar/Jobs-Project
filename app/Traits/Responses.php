@@ -12,8 +12,8 @@ trait Responses {
         $locale = app()->getLocale();
         $responses = include base_path('/lang/en/responses.php');
         return response()->json([
-            //'message' => is_null($message) ? null : __('responses.' . $message),
-            'message' => is_null($message) ? null : ($locale == 'en' ? $responses[$message] : (new GoogleTranslateService())->translate($responses[$message], $locale, 'en')),
+            'message' => is_null($message) ? null : __('responses.' . $message),
+            // 'message' => is_null($message) ? null : ($locale == 'en' ? $responses[$message] : (new GoogleTranslateService())->translate($responses[$message], $locale, 'en')),
             'data' => $data,
         ], $status);
     }

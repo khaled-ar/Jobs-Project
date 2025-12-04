@@ -35,11 +35,11 @@ class PostsController extends Controller
         $posts->getCollection()->transform(function ($post) {
             $post->gender = ($post->gender == 'male' || $post->gender == 'ذكر') ? 'ذكر' : 'انثى';
             $post->makeHidden(['status', 'user_id']);
-            $source = $this->service->detectLanguage($post->text_ar);
-            if($source != 'ar') {
-                $post->text_ar = $this->service->translate($post->text_ar,'ar');
-                $post->title_ar = $this->service->translate($post->title_ar, 'ar');
-            }
+            // $source = $this->service->detectLanguage($post->text_ar);
+            // if($source != 'ar') {
+            //     $post->text_ar = $this->service->translate($post->text_ar,'ar');
+            //     $post->title_ar = $this->service->translate($post->title_ar, 'ar');
+            // }
             return $post;
         });
 
@@ -67,8 +67,8 @@ class PostsController extends Controller
         $posts->getCollection()->transform(function ($post) {
             $post->makeHidden(['status', 'user_id']);
             $target = app()->getLocale();
-            $source = $this->service->detectLanguage($post->text_ar);
-            if($source != $target) {
+            //$source = $this->service->detectLanguage($post->text_ar);
+            if(false/*$source != $target*/) {
                 $post->text = $this->service->translate($post->text_ar, $target);
                 $post->title = $this->service->translate($post->title_ar, $target);
             } else {

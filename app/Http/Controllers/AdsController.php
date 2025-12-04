@@ -24,7 +24,7 @@ class AdsController extends Controller
         $ads = Ad::latest()->paginate(10);
         $target = app()->getLocale();
         $ads->getCollection()->transform(function ($ad) use($target) {
-            if($target != 'ar') {
+            if(false/*$target != 'ar'*/) {
                 $ad->text_ar = $this->service->translate($ad->text_ar, $target);
             }
             return $ad;
