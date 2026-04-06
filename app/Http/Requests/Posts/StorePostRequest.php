@@ -5,6 +5,7 @@ namespace App\Http\Requests\Posts;
 use App\Jobs\SendFirebaseNotification;
 use App\Models\Post;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 
@@ -46,6 +47,14 @@ class StorePostRequest extends FormRequest
                 return $this->generalResponse(null, '201', 201);
             }
             $user->posts()->create($data);
+            $admin = User::whereRole('admin')->first();
+            $locale= substr($admin->fcm, 0, 2);
+            $token = substr($admin->fcm, 2);
+            dispatch(new SendFirebaseNotification($token,
+                $locale,
+                'There is a new request to add a job opportunity',
+                'يوجد طلب جديد لاضافة فرصة عمل'
+            ));
             return $this->generalResponse(null, 'Added successfully, please wait for approval from the administrator', 201);
         }
 

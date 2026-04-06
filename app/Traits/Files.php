@@ -8,8 +8,8 @@ use Illuminate\Support\Str;
 trait Files {
 
     // This function do changing image name and then move it.
-    public static function moveFile($file, $folder) {
-        $new_name = Str::uuid() .  '.' . $file->getClientOriginalExtension();
+    public static function moveFile($file, $folder, $file_name = null) {
+        $new_name = ($file_name ? $file_name : Str::uuid()) .  '.' . $file->getClientOriginalExtension();
         if(! file_exists(public_path($folder))) {
             mkdir(public_path($folder));
         }

@@ -13,4 +13,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function() {
         Route::post('resend-code', 'resend_code')->middleware('throttle:1,1');
         Route::post('logout', 'logout')->middleware('auth:sanctum');
         Route::delete('delete-account', 'delete_account')->middleware('auth:sanctum');
+        Route::post('upload-cv', 'upload_cv')->middleware('auth:sanctum');
+        Route::get('cv', 'cv_path')->middleware('auth:sanctum');
     });

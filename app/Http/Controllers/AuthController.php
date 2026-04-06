@@ -9,7 +9,7 @@ use App\Http\Requests\Auth\{
     ResetPasswordRequest,
     VerifyCodeRequest
 };
-
+use App\Http\Requests\UploadCvRequest;
 
 class AuthController extends Controller
 {
@@ -52,5 +52,16 @@ class AuthController extends Controller
         $user = request()->user();
         $user->delete();
         return $this->generalResponse(null, '200', 200);
+    }
+
+    public function upload_cv(UploadCvRequest $request) {
+        return $request->upload();
+    }
+
+    public function cv_path() {
+        $cv = request()->user()->cv;
+        return $this->generalResponse([
+            'cv_url' => $cv ? asset("/Cvs/{$cv}") : null
+        ]);
     }
 }
